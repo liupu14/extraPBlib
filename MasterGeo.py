@@ -27,4 +27,39 @@ def FindNearbyPoints(lat,lng,distance):
     lngmax = lng + dlng 
     return latmin,lngmin,latmax,lngmax 
 
+def get_coor(lng,lat,Ranges=3,gridDis=0.5):
+    """
+    根据给定的初始经纬度信息以及设定的范围，得到该辐射范围内所有固定大小网格中心的经纬度
+    参数说明：
+            Ranges:中心点辐射范围，单位为千米，默认为3千米
+            gridDis:每个网格的大小，默认为500米
+    """
+    lng_min = lng - 0.01 * Ranges 
+    lng_max = lng + 0.01 * Ranges 
+    lat_min = lat - 0.01 * Ranges 
+    lat_max = lat + 0.01 * Ranges 
+
+    lng_list = []
+    lat_list = []
+
+    start_lng = lng_min + 0.01 * gridDis / 2
+    start_lat = lat_min + 0.01 * gridDis / 2
+    end_lng = lng_max - 0.01 * gridDis / 2
+    end_lat = lat_max - 0.01 * gridDis / 2
+
+    lng_temp = start_lng 
+    lat_temp = start_lat 
+
+    while lng_temp < end_lng:
+        lng_temp += 0.01 * gridDis 
+        lng_list.append(lng_temp)
+
+    while lat_temp < end_lat:
+        lat_temp += 0.01 * gridDis 
+        lat_list.append(lat_temp)
+
+    coor_list = [str(ii) + "," + str(jj) for ii in lng_list for jj in lat_list]
+    return coor_list 
+
+
 
