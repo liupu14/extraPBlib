@@ -1,6 +1,6 @@
 import numpy as np 
 import pandas as pd 
-
+import geopandas as gpd 
 
 def CalDistance(latA,lngA,latB,lnngB):
     """
@@ -61,5 +61,11 @@ def get_coor(lng,lat,Ranges=3,gridDis=0.5):
     coor_list = [str(ii) + "," + str(jj) for ii in lng_list for jj in lat_list]
     return coor_list 
 
+def PointsinSections(shapePath,lng,lat):
+    ShapeData = gpd.read_files(shapePath)
+    target = gpd.points_from_xy(x=[lng],y=[lat])
+    target = gpd.GepSeries(target)
+    if ShapeData.geometry.intersects(target.geometry):
+        return True 
 
 
